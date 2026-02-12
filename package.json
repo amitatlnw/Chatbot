@@ -1,0 +1,27 @@
+{
+  "name": "1-on-1-chat-app",
+  "version": "1.0.0",
+  "description": "A simple real-time one-on-one chat application hosted on GitHub Pages",
+  "main": "index.html",
+  "type": "module",
+  "keywords": [
+    "chat",
+    "github-pages",
+    "firebase",
+    "real-time",
+    "messaging"
+  ],
+  "author": "You",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/Chatbot.git"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/Chatbot#readme",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
