@@ -1,14 +1,14 @@
 // Firebase Configuration
-// You need to replace these with your own Firebase project credentials
-// Get these from your Firebase console: https://console.firebase.google.com/
+// These credentials are for the chatbot-d26a7 project
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDummyKeyReplaceMeWithYourOwnKey",
-    authDomain: "chatbot-12345.firebaseapp.com",
-    projectId: "chatbot-12345",
-    storageBucket: "chatbot-12345.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef"
+    apiKey: "AIzaSyCU2MQ59Y5xcaAB2nh4sdGdErvmKWpEPVE",
+    authDomain: "chatbot-d26a7.firebaseapp.com",
+    projectId: "chatbot-d26a7",
+    storageBucket: "chatbot-d26a7.firebasestorage.app",
+    messagingSenderId: "992792638905",
+    appId: "1:992792638905:web:a379ec1aba545d7e567268",
+    measurementId: "G-HPGXFBZV6V"
 };
 
 // Initialize Firebase
