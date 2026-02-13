@@ -4,6 +4,7 @@
 const firebaseConfig = {
     apiKey: "AIzaSyCU2MQ59Y5xcaAB2nh4sdGdErvmKWpEPVE",
     authDomain: "chatbot-d26a7.firebaseapp.com",
+    databaseURL: "https://chatbot-d26a7-default-rtdb.firebaseio.com",
     projectId: "chatbot-d26a7",
     storageBucket: "chatbot-d26a7.firebasestorage.app",
     messagingSenderId: "992792638905",
