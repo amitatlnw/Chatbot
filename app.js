@@ -73,7 +73,7 @@ function saveSettings() {
     }
     
     if (!newFriendId) {
-        alert('Please enter your friend\'s Chat Room ID');
+        alert("Please enter your friend's Chat Room ID");
         return;
     }
     
@@ -84,8 +84,9 @@ function saveSettings() {
     localStorage.setItem('friendChatId', friendChatId);
     
     settingsModal.style.display = 'none';
-    setupMessageListeners();
-    alert('Settings saved! You\'re now connected.');
+    // Re-initialize listeners for the new chat room
+    setupMessageListeners(); 
+    alert("Settings saved! You're now connected.");
 }
 
 function copyToClipboard() {
@@ -98,6 +99,11 @@ function copyToClipboard() {
 }
 
 function setupMessageListeners() {
+    // Detach any existing listeners to prevent duplicates
+    if (messagesRef) {
+        messagesRef.off();
+    }
+    
     messagesContainer.innerHTML = '';
     
     if (!friendChatId) {
@@ -124,9 +130,11 @@ function setupMessageListeners() {
     }
     
     try {
-        // Use a single shared room for the two participants so both see the same
+        // Use a single shared room for the two participants
         roomId = [currentUserId, friendChatId].sort().join('_');
         messagesRef = database.ref('chats/' + roomId);
+
+        // Listen for new messages
         messagesRef.on('child_added', (snapshot) => {
             const msg = snapshot.val();
             if (msg) {
@@ -169,17 +177,16 @@ function sendMessage() {
             roomId = [currentUserId, friendChatId].sort().join('_');
         }
 
-        // Write to the shared room so both participants receive the message
+        // Write to the shared room. The 'child_added' listener will handle displaying it.
         database.ref('chats/' + roomId + '/' + messageId).set(message)
             .then(() => {
-                // Optimistically show sender's message immediately
-                displayMessage(message, 'own');
+                // Clear the input field on successful send
                 messageInput.value = '';
                 messageInput.focus();
             })
             .catch((error) => {
                 console.error('Error sending message:', error);
-                alert('Failed to send message. Check your Firebase config.');
+                alert('Failed to send message. Check your Firebase config or network connection.');
             });
     } catch (error) {
         console.error('Error:', error);
@@ -203,6 +210,12 @@ function displayMessage(message, type) {
         </div>
     `;
     
+    // Check if the placeholder is present and remove it
+    const placeholder = messagesContainer.querySelector('div[style*="flex: 1"]');
+    if (placeholder) {
+        messagesContainer.innerHTML = ''; // Clear the placeholder
+    }
+
     messagesContainer.appendChild(messageEl);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
