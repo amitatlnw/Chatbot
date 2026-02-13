@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-on-1 Chat - Demo (localStorage)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-content">
+                <h1>Chat (Demo - LocalStorage)</h1>
+                <p class="status" id="status" style="color: #90EE90;">Demo Mode</p>
+            </div>
+            <button class="settings-btn" id="settingsBtn">⚙️</button>
+        </div>
+
+        <div class="settings-modal" id="settingsModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Chat Settings</h2>
+                <div class="setting-group">
+                    <label for="userNameInput">Your Name:</label>
+                    <input type="text" id="userNameInput" placeholder="Enter your name">
+                </div>
+                <div class="setting-group">
+                    <label style="color: #666; font-weight: normal;">
+                        💡 This is a DEMO version using localStorage. 
+                        It only works on this same device/browser.
+                    </label>
+                </div>
+                <button class="save-btn" id="saveSettingsBtn">Save Settings</button>
+                <p class="settings-info">
+                    <strong>Demo Mode:</strong> Uses browser localStorage. Open this page in TWO browser windows/tabs to test messaging between "two people" on the same device.
+                </p>
+            </div>
+        </div>
+
+        <div class="messages" id="messagesContainer"></div>
+
+        <div class="input-area">
+            <input 
+                type="text" 
+                id="messageInput" 
+                placeholder="Type a message..." 
+                autocomplete="off"
+            >
+            <button id="sendBtn" class="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script src="app-demo.js"></script>
+</body>
+</html>
