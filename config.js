@@ -13,8 +13,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-// Get reference to the database and make it available globally
-firebase.initializeApp(firebaseConfig);
-window.database = firebase.database();
-// Also ensure `firebase` is on window for compatibility
-window.firebase = window.firebase || firebase;
+
+// Get reference to the database
+const database = firebase.database();
