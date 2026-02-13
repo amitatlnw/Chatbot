@@ -3,7 +3,7 @@ let currentUserId = localStorage.getItem('userId');
 let currentUserName = localStorage.getItem('userName') || 'User';
 let friendChatId = localStorage.getItem('friendChatId');
 let messagesRef = null;
-let friendMessagesRef = null;
+let roomId = null;
 
 // Generate unique user ID if not exists
 if (!currentUserId) {
@@ -124,27 +124,22 @@ function setupMessageListeners() {
     }
     
     try {
-        // Listen to your own messages
-        messagesRef = database.ref('chats/' + currentUserId);
+        // Use a single shared room for the two participants so both see the same
+        roomId = [currentUserId, friendChatId].sort().join('_');
+        messagesRef = database.ref('chats/' + roomId);
         messagesRef.on('child_added', (snapshot) => {
-            if (snapshot.val()) {
-                displayMessage(snapshot.val(), 'own');
+            const msg = snapshot.val();
+            if (msg) {
+                const type = msg.senderId === currentUserId ? 'own' : 'other';
+                displayMessage(msg, type);
             }
         });
-        
-        // Listen to friend's messages
-        friendMessagesRef = database.ref('chats/' + friendChatId);
-        friendMessagesRef.on('child_added', (snapshot) => {
-            if (snapshot.val()) {
-                displayMessage(snapshot.val(), 'other');
-            }
-        });
-        
+
         // Check connection status
         database.ref('.info/connected').on('value', (snapshot) => {
             updateStatus(snapshot.val() === true);
         });
-        
+
     } catch (error) {
         console.error('Error setting up listeners:', error);
         updateStatus(false);
@@ -165,12 +160,20 @@ function sendMessage() {
         id: messageId,
         text: text,
         timestamp: firebase.database.ServerValue.TIMESTAMP,
-        sender: currentUserName
+        sender: currentUserName,
+        senderId: currentUserId
     };
     
     try {
-        database.ref('chats/' + currentUserId + '/' + messageId).set(message)
+        if (!roomId) {
+            roomId = [currentUserId, friendChatId].sort().join('_');
+        }
+
+        // Write to the shared room so both participants receive the message
+        database.ref('chats/' + roomId + '/' + messageId).set(message)
             .then(() => {
+                // Optimistically show sender's message immediately
+                displayMessage(message, 'own');
                 messageInput.value = '';
                 messageInput.focus();
             })
